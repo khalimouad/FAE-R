@@ -94,14 +94,76 @@ function mailto(subject: string) {
   return `mailto:${contactEmail || ""}?subject=${encodeURIComponent(subject)}`;
 }
 
+
+function MedicalIllustration() {
+  return (
+    <svg className="medicalIllustration" viewBox="0 0 440 340" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="kitSurface" x1="100" y1="90" x2="350" y2="300" gradientUnits="userSpaceOnUse"><stop stopColor="#F5FFF9"/><stop offset="1" stopColor="#9DD9C7"/></linearGradient>
+        <linearGradient id="kitSide" x1="300" y1="140" x2="390" y2="280" gradientUnits="userSpaceOnUse"><stop stopColor="#2E9589"/><stop offset="1" stopColor="#146257"/></linearGradient>
+      </defs>
+      <ellipse cx="233" cy="297" rx="155" ry="18" fill="#071F27" fillOpacity=".14"/>
+      <g className="kitFloat">
+        <path d="M174 105V79Q174 63 190 63H250Q266 63 266 79V105" stroke="#BAE9DC" strokeWidth="17"/>
+        <path d="M323 112L375 147V266L323 292Z" fill="url(#kitSide)"/>
+        <rect x="82" y="105" width="246" height="187" rx="26" fill="url(#kitSurface)" stroke="#D3F7EA" strokeWidth="2"/>
+        <path d="M83 156H327" stroke="#71B7A4" strokeWidth="2"/>
+        <rect x="117" y="141" width="18" height="31" rx="5" fill="#267E70"/>
+        <rect x="275" y="141" width="18" height="31" rx="5" fill="#267E70"/>
+        <circle cx="205" cy="222" r="45" fill="#F3FFF9"/>
+        <path d="M194 194H216V211H233V233H216V250H194V233H177V211H194Z" fill="#237C6C"/>
+        <path d="M111 273H144" stroke="#6BAF9B" strokeWidth="4" strokeLinecap="round"/>
+      </g>
+      <g className="illustrationSpark"><circle cx="353" cy="70" r="29" fill="#FFFFFF" fillOpacity=".9"/><path d="M340 70L349 79L367 60" stroke="#218675" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/></g>
+      <path className="pulseLine" d="M18 210H45L56 184L72 233L91 200H119" stroke="#91DDCA" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+      <circle cx="105" cy="56" r="7" fill="#91DDCA"/><circle cx="393" cy="213" r="5" fill="#91DDCA"/>
+      <path d="M48 104V124M38 114H58M310 26V40M303 33H317" stroke="#91DDCA" strokeWidth="3" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("fr");
   const t = copy[locale];
   useEffect(() => { document.documentElement.lang = locale; }, [locale]);
 
+  useEffect(() => {
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let observer: IntersectionObserver | undefined;
+    const animations: Animation[] = [];
+    function setup() {
+      observer?.disconnect();
+      animations.forEach(animation => animation.cancel());
+      animations.length = 0;
+      if (preference.matches || !("IntersectionObserver" in window)) return;
+      observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const element = entry.target as HTMLElement;
+          if (typeof element.animate === "function") {
+            animations.push(element.animate(
+              [{ opacity: 0, transform: "translateY(28px)" }, { opacity: 1, transform: "translateY(0)" }],
+              { duration: 700, delay: Number(element.dataset.delay || 0), easing: "cubic-bezier(.2,.7,.2,1)" }
+            ));
+          }
+          observer?.unobserve(element);
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll<HTMLElement>("[data-reveal]").forEach(element => observer?.observe(element));
+    }
+    setup();
+    preference.addEventListener("change", setup);
+    return () => {
+      observer?.disconnect();
+      animations.forEach(animation => animation.cancel());
+      preference.removeEventListener("change", setup);
+    };
+  }, []);
+
   return (
     <main id="top" lang={locale}>
       <a className="skipLink" href="#divisions">{locale === "fr" ? "Aller au contenu" : "Skip to content"}</a>
+      <div className="scrollProgress" aria-hidden="true" />
       <header className="nav">
         <a className="brand" href="#top" aria-label="FAE-R, home">
           <span className="mark">F</span><span>FAE-R <em>INC.</em></span>
@@ -117,24 +179,36 @@ export default function Home() {
       </header>
 
       <section className="hero">
-        <div className="heroInner">
+        <div className="heroInner"><span className="heroRule" aria-hidden="true" />
           <span className="eyebrow">{t.eyebrow}</span>
           <h1>{t.titleA}<br /><span>{t.titleB}</span></h1>
           <p>{t.intro}</p>
           <a className="cta" href="#divisions">{t.explore}<span aria-hidden="true">↗</span></a>
         </div>
-        <div className="heroBadge" aria-hidden="true"><span className="badgeCross">+</span><span>{locale === "fr" ? "PRÉVENIR · PROTÉGER · AGIR" : "PREVENT · PROTECT · ACT"}</span></div>
+        <div className="heroVisual">
+          <div className="photoFrame">
+            <img className="heroPhoto" src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1100&q=85"
+              srcSet="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=550&q=80 550w, https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1100&q=85 1100w"
+              sizes="(max-width: 850px) 90vw, 44vw" width={1100} height={1250} fetchPriority="high"
+              alt={locale === "fr" ? "Professionnels de la santé en discussion dans un environnement médical" : "Healthcare professionals discussing care in a medical setting"} />
+            <span className="photoCaption">{locale === "fr" ? "La prévention commence avec les personnes." : "Prevention starts with people."}</span>
+          </div>
+          <div className="illustrationTile"><MedicalIllustration /></div>
+          <span className="visualLabel"><span className="statusDot" />{locale === "fr" ? "MATÉRIEL · FORMATION · PRÉVENTION" : "SUPPLIES · TRAINING · PREVENTION"}</span>
+        </div>
       </section>
 
       <section className="content divisions" id="divisions">
-        <div className="sectionHead"><div><span className="eyebrow">{t.divisionsKicker}</span><h2>{t.divisionsTitle}</h2></div></div>
+        <div className="sectionHead" data-reveal><div><span className="eyebrow">{t.divisionsKicker}</span><h2>{t.divisionsTitle}</h2></div></div>
         <div className="divisionGrid">
-          <article className="divisionCard supplyCard">
+          <article className="divisionCard supplyCard" data-reveal>
+            <div className="divisionPhoto"><img src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=80" width={900} height={560} loading="lazy" decoding="async" alt={locale === "fr" ? "Matériel et environnement de soins médicaux" : "Medical supplies and care environment"} /><span className="imageStamp" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><rect x="5" y="10" width="22" height="17" rx="4" stroke="currentColor" strokeWidth="2"/><path d="M11 10V6h10v4M16 15v8M12 19h8" stroke="currentColor" strokeWidth="2"/></svg></span></div>
             <span className="cardIndex">01 / MEDICAL SUPPLIES</span><span className="cardSymbol" aria-hidden="true">✳</span>
             <h3>{t.supplies}</h3><p>{t.supplyText}</p>
             <details className="serviceDetails"><summary>{t.learn}</summary><p>{locale === "fr" ? "Décrivez votre organisation, vos besoins et votre échéancier. Les disponibilités et les modalités seront confirmées lors de la préparation de votre proposition." : "Describe your organization, requirements, and timeline. Availability and terms will be confirmed when your proposal is prepared."}</p></details>
           </article>
-          <article className="divisionCard trainingCard">
+          <article className="divisionCard trainingCard" data-reveal data-delay="120">
+            <div className="divisionPhoto"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80" width={900} height={560} loading="lazy" decoding="async" alt={locale === "fr" ? "Échange et accompagnement dans un contexte de santé" : "Communication and guidance in a healthcare setting"} /><span className="imageStamp" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 3L27 8v9c0 7-11 12-11 12S5 24 5 17V8L16 3Z" stroke="currentColor" strokeWidth="2"/><path d="m10 16 4 4 8-9" stroke="currentColor" strokeWidth="2"/></svg></span></div>
             <span className="cardIndex">02 / TRAINING &amp; SST</span><span className="cardSymbol" aria-hidden="true">✳</span>
             <h3>{t.training}</h3><p>{t.trainingText}</p>
             <details className="serviceDetails"><summary>{t.learn}</summary><p>{locale === "fr" ? "Décrivez votre organisation, vos besoins et votre échéancier. Les disponibilités et les modalités seront confirmées lors de la préparation de votre proposition." : "Describe your organization, requirements, and timeline. Availability and terms will be confirmed when your proposal is prepared."}</p></details>
@@ -144,9 +218,9 @@ export default function Home() {
 
       <section className="spacesSection" id="spaces">
         <div className="content">
-          <div className="sectionHead"><div><span className="eyebrow">{t.spacesKicker}</span><h2>{t.spacesTitle}</h2><p className="sectionIntro">{t.spacesIntro}</p></div></div>
+          <div className="sectionHead" data-reveal><div><span className="eyebrow">{t.spacesKicker}</span><h2>{t.spacesTitle}</h2><p className="sectionIntro">{t.spacesIntro}</p></div></div>
           <div className="spacesGrid">
-            {t.spaces.map(([name, description], i) => <article className="spaceCard" key={name}>
+            {t.spaces.map(([name, description], i) => <article className="spaceCard" key={name} data-reveal data-delay={(i % 4) * 70}>
               <span className="spaceNumber">0{i + 1}</span><h3><span className={`spaceDot dot${i}`} aria-hidden="true" />{name}</h3><p>{description}</p>
             </article>)}
           </div>
@@ -155,11 +229,11 @@ export default function Home() {
 
       <section className="content approach">
         <span className="eyebrow">{t.approachKicker}</span>
-        <div className="approachGrid"><h2>{t.approachTitle}</h2><p>{t.approachText}</p></div>
+        <div className="approachGrid" data-reveal><h2>{t.approachTitle}</h2><p>{t.approachText}</p></div>
       </section>
 
       <section className="contactSection" id="contact">
-        <div className="contactInner"><div><span className="eyebrow">{t.eyebrow}</span><h2>{t.contactTitle}</h2><p>{t.contactText}</p></div>
+        <div className="contactInner" data-reveal><div><span className="eyebrow">{t.eyebrow}</span><h2>{t.contactTitle}</h2><p>{t.contactText}</p></div>
           <div className="contactActions">{contactEmail ? <><a className="cta" href={mailto(t.mailSubject)}>{t.contact}<span aria-hidden="true">↗</span></a><a className="outlineCta" href={mailto(t.quoteSubject)}>{t.quote}</a></> : <p>{locale === "fr" ? "Coordonnées de contact à venir." : "Contact details coming soon."}</p>}</div>
         </div>
       </section>
