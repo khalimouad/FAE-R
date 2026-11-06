@@ -1,30 +1,17 @@
-# FAE-R Hub
+# FAE-R INC.
 
-Plateforme web institutionnelle pour FAE-R INC. — **prototype initial**.
+Bilingual French/English Next.js public site describing FAE-R Medical Supplies, Initials Flux, and the eight operating spaces in the governance charter.
 
-> Le document « Plan de Projet & Charte de Gouvernance 2 » n'a pas encore été consulté. Les modules et rôles ci-dessous sont des hypothèses à valider avec les responsables.
+## Development
 
-## Démarrer
+Use Node.js 22+, then `npm install` and `npm run dev`. Run `npm run build` for a production build and `npm run lint` for TypeScript checks.
 
-```bash
-npm install
-npm run dev
-```
+## Deployment
 
-Ouvrir http://localhost:3000.
+Import `khalimouad/FAE-R` into Vercel with the Next.js preset and repository root as the root directory. Production branch: `main`. Subsequent pushes build automatically; feature branches receive preview deployments.
 
-## Stack
-- Next.js App Router, TypeScript, React
-- CSS natif, sans dépendance UI
-- Backend et authentification à ajouter après validation des exigences
+Set `NEXT_PUBLIC_CONTACT_EMAIL` to the verified business email in Vercel before enabling inquiry links. Without it, contact availability is shown clearly and no message is sent. Redeploy after changing this build-time setting.
 
-## Feuille de route
-1. Recueillir et analyser la charte de gouvernance, les rôles et circuits de décision.
-2. Valider le périmètre MVP, les langues et l'identité visuelle.
-3. Développer authentification, gestion des utilisateurs et RBAC.
-4. Développer projets, tâches, réunions, décisions et documents.
-5. Ajouter journal d'audit, tests, sauvegardes et règles de confidentialité.
-6. Déployer un environnement de recette avant production.
+## Current scope
 
-## Sécurité
-Les pages actuelles sont une démonstration statique : aucune donnée réelle, aucune connexion, aucune permission ou stockage n'est encore implémenté.
+Public information website. No user accounts, payment processing, database, or inquiry storage. Service availability and legal registration details still require confirmation. See `docs/PRODUCT_PLAN.md` for future milestones.
