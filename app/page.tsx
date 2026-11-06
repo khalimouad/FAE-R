@@ -122,9 +122,32 @@ function MedicalIllustration() {
   );
 }
 
+
+type NavIconName = "home" | "medical" | "training" | "spaces";
+function NavIcon({ name }: { name: NavIconName }) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {name === "home" ? <><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z"/></> :
+    name === "medical" ? <><rect x="3" y="7" width="18" height="14" rx="4"/><path d="M8 7V4h8v3M7 14h3l2-3 2 6 2-3h2"/></> :
+    name === "training" ? <><path d="m12 2 9 4v6c0 6-9 10-9 10S3 18 3 12V6l9-4Z"/><path d="m7 10 5-3 5 3-5 3-5-3ZM9 12v4h6v-4"/></> :
+    <><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></>}
+  </svg>;
+}
+
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("fr");
   const t = copy[locale];
+  const [activeSection, setActiveSection] = useState("home");
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) setActiveSection(entry.target.id); });
+    }, { rootMargin: "-10% 0px -55% 0px", threshold: 0 });
+    ["home", "medical", "training", "spaces"].forEach(id => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+    return () => observer.disconnect();
+  }, []);
   useEffect(() => { document.documentElement.lang = locale; }, [locale]);
 
   useEffect(() => {
@@ -178,7 +201,7 @@ export default function Home() {
         </button>
       </header>
 
-      <section className="hero">
+      <section className="hero" id="home">
         <div className="heroInner"><span className="heroRule" aria-hidden="true" />
           <span className="eyebrow">{t.eyebrow}</span>
           <h1>{t.titleA}<br /><span>{t.titleB}</span></h1>
@@ -198,18 +221,22 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="quickAccess" aria-label={locale === "fr" ? "Accès aux divisions" : "Division shortcuts"}>
+        <a href="#medical"><span className="shortcutIcon"><NavIcon name="medical" /></span><span>{locale === "fr" ? "Matériel médical" : "Medical supplies"}<small>{locale === "fr" ? "Trousses · DEA · Réapprovisionnement" : "Kits · AEDs · Replenishment"}</small></span><span className="shortcutArrow" aria-hidden="true">↗</span></a>
+        <a href="#training"><span className="shortcutIcon fluxIcon"><NavIcon name="training" /></span><span>{locale === "fr" ? "Formation & SST" : "Training & safety"}<small>{locale === "fr" ? "Secourisme · Ateliers · Audits" : "First aid · Workshops · Audits"}</small></span><span className="shortcutArrow" aria-hidden="true">↗</span></a>
+      </div>
       <section className="content divisions" id="divisions">
         <div className="sectionHead" data-reveal><div><span className="eyebrow">{t.divisionsKicker}</span><h2>{t.divisionsTitle}</h2></div></div>
         <div className="divisionGrid">
-          <article className="divisionCard supplyCard" data-reveal>
+          <article className="divisionCard supplyCard" id="medical" data-reveal>
             <div className="divisionPhoto"><img src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=80" width={900} height={560} loading="lazy" decoding="async" alt={locale === "fr" ? "Matériel et environnement de soins médicaux" : "Medical supplies and care environment"} /><span className="imageStamp" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><rect x="5" y="10" width="22" height="17" rx="4" stroke="currentColor" strokeWidth="2"/><path d="M11 10V6h10v4M16 15v8M12 19h8" stroke="currentColor" strokeWidth="2"/></svg></span></div>
-            <span className="cardIndex">01 / MEDICAL SUPPLIES</span><span className="cardSymbol" aria-hidden="true">✳</span>
+            <div className="divisionIdentity"><img className="divisionEmblem" src="/icons/medical-supplies.svg" alt="" width={112} height={112}/><div><span className="divisionPill">{locale === "fr" ? "S'ÉQUIPER" : "GET EQUIPPED"}</span><span className="identityCaption">{locale === "fr" ? "Le matériel essentiel." : "Essential supplies."}</span></div></div>
             <h3>{t.supplies}</h3><p>{t.supplyText}</p>
             <details className="serviceDetails"><summary>{t.learn}</summary><p>{locale === "fr" ? "Décrivez votre organisation, vos besoins et votre échéancier. Les disponibilités et les modalités seront confirmées lors de la préparation de votre proposition." : "Describe your organization, requirements, and timeline. Availability and terms will be confirmed when your proposal is prepared."}</p></details>
           </article>
-          <article className="divisionCard trainingCard" data-reveal data-delay="120">
+          <article className="divisionCard trainingCard" id="training" data-reveal data-delay="120">
             <div className="divisionPhoto"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80" width={900} height={560} loading="lazy" decoding="async" alt={locale === "fr" ? "Échange et accompagnement dans un contexte de santé" : "Communication and guidance in a healthcare setting"} /><span className="imageStamp" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 3L27 8v9c0 7-11 12-11 12S5 24 5 17V8L16 3Z" stroke="currentColor" strokeWidth="2"/><path d="m10 16 4 4 8-9" stroke="currentColor" strokeWidth="2"/></svg></span></div>
-            <span className="cardIndex">02 / TRAINING &amp; SST</span><span className="cardSymbol" aria-hidden="true">✳</span>
+            <div className="divisionIdentity"><img className="divisionEmblem" src="/icons/initials-flux.svg" alt="" width={112} height={112}/><div><span className="divisionPill">{locale === "fr" ? "SE FORMER" : "BUILD SKILLS"}</span><span className="identityCaption">{locale === "fr" ? "Les bons réflexes." : "Skills to respond."}</span></div></div>
             <h3>{t.training}</h3><p>{t.trainingText}</p>
             <details className="serviceDetails"><summary>{t.learn}</summary><p>{locale === "fr" ? "Décrivez votre organisation, vos besoins et votre échéancier. Les disponibilités et les modalités seront confirmées lors de la préparation de votre proposition." : "Describe your organization, requirements, and timeline. Availability and terms will be confirmed when your proposal is prepared."}</p></details>
           </article>
@@ -237,6 +264,12 @@ export default function Home() {
           <div className="contactActions">{contactEmail ? <><a className="cta" href={mailto(t.mailSubject)}>{t.contact}<span aria-hidden="true">↗</span></a><a className="outlineCta" href={mailto(t.quoteSubject)}>{t.quote}</a></> : <p>{locale === "fr" ? "Coordonnées de contact à venir." : "Contact details coming soon."}</p>}</div>
         </div>
       </section>
+      <nav className="mobileDock" aria-label={locale === "fr" ? "Navigation mobile" : "Mobile navigation"}>
+        {(["home", "medical", "training", "spaces"] as const).map((id, i) => <a key={id} href={`#${id}`} aria-current={activeSection === id ? "location" : undefined} onClick={() => setActiveSection(id)}>
+          <span className="dockIcon"><NavIcon name={id} /></span>
+          <span>{(locale === "fr" ? ["Accueil", "Matériel", "Formation", "Espaces"] : ["Home", "Supplies", "Training", "Spaces"])[i]}</span>
+        </a>)}
+      </nav>
       <footer><span>© {new Date().getFullYear()} {t.footer}</span><span className="footerNote">{t.note}</span><a href="#top">{t.backTop} ↑</a></footer>
     </main>
   );
