@@ -1,0 +1,9 @@
+const modules = [
+  { icon: "◈", title: "Projets", description: "Planification, suivi des activités et jalons." },
+  { icon: "◎", title: "Gouvernance", description: "Réunions, décisions et circuits de validation." },
+  { icon: "▤", title: "Documents", description: "Référentiel documentaire et versions." },
+  { icon: "♧", title: "Membres", description: "Annuaire, responsabilités et permissions." },
+  { icon: "▥", title: "Rapports", description: "Indicateurs et comptes rendus." },
+  { icon: "◇", title: "Administration", description: "Paramètres et journal d'audit." }
+];
+export default function Home() { return <main><header className="nav"><div className="brand"><span className="mark">F</span><span>FAE-R <em>HUB</em></span></div><span className="status">Prototype · Version 0.1</span></header><section className="hero"><span className="eyebrow">FAE-R INC. / ESPACE INSTITUTIONNEL</span><h1>Une organisation.<br/><span>Une vision partagée.</span></h1><p>Un espace numérique pour coordonner les projets, structurer la gouvernance et faciliter la collaboration.</p><a className="cta" href="#modules">Explorer les modules <span aria-hidden="true">↗</span></a></section><section className="content" id="modules"><div className="sectionHead"><div><span className="eyebrow">ARCHITECTURE PROPOSÉE</span><h2>Les espaces de la plateforme</h2></div><span className="hint">6 modules à valider</span></div><div className="grid">{modules.map((m,i)=><article className="module" key={m.title}><div className="moduleTop"><span className="symbol">{m.icon}</span><span className="num">0{i+1}</span></div><h3>{m.title}</h3><p>{m.description}</p><span className="soon">À développer</span></article>)}</div></section><footer>© {new Date().getFullYear()} FAE-R INC. · Prototype de cadrage — fonctionnalités non opérationnelles</footer></main>; }
