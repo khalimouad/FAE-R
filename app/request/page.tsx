@@ -10,6 +10,8 @@ export default function RequestPage() {
   const [service, setService] = useState<Service>("medical");
   const [category, setCategory] = useState("");
   const [draft, setDraft] = useState("");
+  const [ready, setReady] = useState(false);
+  useEffect(() => { setReady(true); }, []);
   const resultRef = useRef<HTMLElement>(null);
   const fr = locale === "fr";
   useEffect(() => {
@@ -80,7 +82,8 @@ export default function RequestPage() {
             <textarea id="details" name="details" rows={5} required minLength={10} maxLength={1800} aria-describedby="details-help" placeholder={fr ? "Quantités, participants, nombre de sites, objectifs…" : "Quantities, participants, locations, objectives…"}/>
             <p id="details-help" className="fieldHelp">{fr ? "N'incluez pas de renseignements médicaux ni de données sensibles. Les champs * sont obligatoires." : "Do not include medical information or sensitive data. Fields marked * are required."}</p>
           </fieldset>
-          <button className="cta prepareButton" type="submit">{fr ? "Préparer mon brouillon" : "Prepare my draft"}<span aria-hidden="true">↗</span></button>
+          <noscript><p>Activez JavaScript pour préparer votre demande. Enable JavaScript to prepare your request.</p></noscript>
+          <button className="cta prepareButton" type="submit" disabled={!ready}>{fr ? "Préparer mon brouillon" : "Prepare my draft"}<span aria-hidden="true">↗</span></button>
         </form>
         <aside className="requestAside"><img src={services[service].icon} alt="" width={100} height={100}/><h2>{fr ? "Un premier échange bien préparé." : "A well-prepared first conversation."}</h2>
           <p>{fr ? "Ce formulaire prépare un document. Il n'envoie pas de message à FAE-R et ne crée pas de commande." : "This form prepares a document. It does not send a message to FAE-R or create an order."}</p>
