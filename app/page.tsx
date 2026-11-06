@@ -136,6 +136,7 @@ function NavIcon({ name }: { name: NavIconName }) {
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("fr");
   const t = copy[locale];
+  useEffect(() => { if (new URLSearchParams(window.location.search).get("lang") === "en") setLocale("en"); }, []);
   const [activeSection, setActiveSection] = useState("home");
   useEffect(() => {
     if (!("IntersectionObserver" in window)) return;
@@ -232,12 +233,14 @@ export default function Home() {
             <div className="divisionPhoto"><img src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=80" width={900} height={560} loading="lazy" decoding="async" alt={locale === "fr" ? "Matériel et environnement de soins médicaux" : "Medical supplies and care environment"} /><span className="imageStamp" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><rect x="5" y="10" width="22" height="17" rx="4" stroke="currentColor" strokeWidth="2"/><path d="M11 10V6h10v4M16 15v8M12 19h8" stroke="currentColor" strokeWidth="2"/></svg></span></div>
             <div className="divisionIdentity"><img className="divisionEmblem" src="/icons/medical-supplies.svg" alt="" width={112} height={112}/><div><span className="divisionPill">{locale === "fr" ? "S'ÉQUIPER" : "GET EQUIPPED"}</span><span className="identityCaption">{locale === "fr" ? "Le matériel essentiel." : "Essential supplies."}</span></div></div>
             <h3>{t.supplies}</h3><p>{t.supplyText}</p>
+            <a className="textLink divisionLink" href={`/medical-supplies/?lang=${locale}`}>{locale === "fr" ? "Explorer le matériel" : "Explore supplies"} <span aria-hidden="true">↗</span></a>
             <details className="serviceDetails"><summary>{t.learn}</summary><p>{locale === "fr" ? "Décrivez votre organisation, vos besoins et votre échéancier. Les disponibilités et les modalités seront confirmées lors de la préparation de votre proposition." : "Describe your organization, requirements, and timeline. Availability and terms will be confirmed when your proposal is prepared."}</p></details>
           </article>
           <article className="divisionCard trainingCard" id="training" data-reveal data-delay="120">
             <div className="divisionPhoto"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80" width={900} height={560} loading="lazy" decoding="async" alt={locale === "fr" ? "Échange et accompagnement dans un contexte de santé" : "Communication and guidance in a healthcare setting"} /><span className="imageStamp" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M16 3L27 8v9c0 7-11 12-11 12S5 24 5 17V8L16 3Z" stroke="currentColor" strokeWidth="2"/><path d="m10 16 4 4 8-9" stroke="currentColor" strokeWidth="2"/></svg></span></div>
             <div className="divisionIdentity"><img className="divisionEmblem" src="/icons/initials-flux.svg" alt="" width={112} height={112}/><div><span className="divisionPill">{locale === "fr" ? "SE FORMER" : "BUILD SKILLS"}</span><span className="identityCaption">{locale === "fr" ? "Les bons réflexes." : "Skills to respond."}</span></div></div>
             <h3>{t.training}</h3><p>{t.trainingText}</p>
+            <a className="textLink divisionLink" href={`/initials-flux/?lang=${locale}`}>{locale === "fr" ? "Explorer les formations" : "Explore training"} <span aria-hidden="true">↗</span></a>
             <details className="serviceDetails"><summary>{t.learn}</summary><p>{locale === "fr" ? "Décrivez votre organisation, vos besoins et votre échéancier. Les disponibilités et les modalités seront confirmées lors de la préparation de votre proposition." : "Describe your organization, requirements, and timeline. Availability and terms will be confirmed when your proposal is prepared."}</p></details>
           </article>
         </div>
@@ -261,7 +264,7 @@ export default function Home() {
 
       <section className="contactSection" id="contact">
         <div className="contactInner" data-reveal><div><span className="eyebrow">{t.eyebrow}</span><h2>{t.contactTitle}</h2><p>{t.contactText}</p></div>
-          <div className="contactActions">{contactEmail ? <><a className="cta" href={mailto(t.mailSubject)}>{t.contact}<span aria-hidden="true">↗</span></a><a className="outlineCta" href={mailto(t.quoteSubject)}>{t.quote}</a></> : <p>{locale === "fr" ? "Coordonnées de contact à venir." : "Contact details coming soon."}</p>}</div>
+          <div className="contactActions"><a className="cta" href={`/request/?lang=${locale}`}>{t.quote}<span aria-hidden="true">↗</span></a>{contactEmail ? <a className="outlineCta" href={mailto(t.mailSubject)}>{t.contact}</a> : null}</div>
         </div>
       </section>
       <nav className="mobileDock" aria-label={locale === "fr" ? "Navigation mobile" : "Mobile navigation"}>

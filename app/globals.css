@@ -105,3 +105,60 @@
  .mobileDock a:active{background:#f0f6f3}
  #medical,#training{scroll-margin-top:84px}
 }
+
+/* Division catalogs and request preparation */
+.navLinks a[aria-current]{color:#126b5f;font-weight:800}
+.productPage{min-height:75vh}.divisionLanding,.requestLanding{max-width:1190px;margin:auto;padding:32px 28px 64px}
+.backLink{display:inline-flex;align-items:center;min-height:44px;color:#576c73;font-size:13px;font-weight:600}
+.divisionIntro{display:flex;align-items:center;justify-content:space-between;gap:40px;margin-top:22px;background:#e5f5ed;border-radius:32px;padding:48px}
+.fluxTheme .divisionIntro{background:#eeedff}.fluxTheme .divisionPill{background:#dedcfb;color:#474a8c}
+.divisionIntro h1,.requestHeading h1{font-family:Manrope,sans-serif;font-size:clamp(36px,5vw,60px);letter-spacing:-.05em;line-height:1.12;margin:20px 0}
+.divisionIntro p{font-size:18px;line-height:1.7;max-width:580px;color:#48676a}.landingEmblem{width:220px;height:220px;flex-shrink:0}
+.fluxTheme .cta{background:#4f5292;color:#fff}
+.catalogSection{padding:62px 0}.catalogSection h2,.journeyPanel h2,.draftResult h2{font-family:Manrope,sans-serif;font-size:clamp(26px,3vw,36px);letter-spacing:-.035em;line-height:1.25;margin:16px 0 26px}
+.categoryGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.categoryCard{display:flex;flex-direction:column;background:#fff;border:1px solid #e0e8e4;border-radius:24px;padding:26px}
+.categoryNumber{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:#e4f5ed;color:#216754;font-size:12px;font-weight:700}
+.fluxTheme .categoryNumber{background:#eeedff;color:#4f5292}
+.categoryCard h3{font-size:21px;line-height:1.25;margin:24px 0 12px}.categoryCard p{color:#61767a;font-size:14px;line-height:1.7;margin:0 0 22px}
+.categoryCard a{display:flex;justify-content:space-between;align-items:center;min-height:48px;margin-top:auto;font-size:13px;font-weight:700;color:#126b5f;border-top:1px solid #e8eeeb;padding-top:12px;gap:12px}.fluxTheme .categoryCard a{color:#4f5292}
+.journeyPanel{padding:32px;background:#edf2ef;border-radius:28px}.journeySteps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:0;list-style:none;counter-reset:step}
+.journeySteps li{counter-increment:step}.journeySteps li:before{content:"0" counter(step);font-size:12px;color:#64867d;display:block;margin-bottom:12px}
+.journeySteps strong{display:block;font-size:17px;margin-bottom:10px}.journeySteps span{color:#62777a;font-size:14px;line-height:1.7}
+.availabilityNote{color:#60777a;font-size:12px;line-height:1.7;border-top:1px solid #dce5df;padding-top:18px;margin:28px 0 0}
+.requestHeading{max-width:760px;margin:26px 0 36px}.requestHeading p{color:#62777a;line-height:1.8;font-size:16px}
+.requestLayout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:start;gap:24px}
+.requestForm{background:#fff;border:1px solid #e1e9e5;padding:32px;border-radius:28px}.requestForm fieldset{border:0;margin:0 0 30px;padding:0;min-width:0}
+.requestForm legend{font-weight:800;font-size:18px;margin-bottom:18px;letter-spacing:-.02em}
+.requestForm label{display:block;font-size:13px;font-weight:600;margin:18px 0 8px}
+.requestForm input,.requestForm select,.requestForm textarea{display:block;width:100%;border:1px solid #cedbd5;border-radius:12px;background:#fafffc;color:#173b39;padding:13px 14px;font:inherit;font-size:16px;min-height:48px}
+.requestForm textarea{resize:vertical;line-height:1.6}.requestForm select{padding-right:28px}.formColumns{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.serviceToggle{display:grid;grid-template-columns:1fr 1fr;gap:12px}.serviceToggle button{display:flex;gap:10px;align-items:center;justify-content:center;min-height:76px;border:1px solid #dee6e1;background:#fff;border-radius:18px;padding:10px;font-size:13px;font-weight:700;color:#536e69;cursor:pointer}
+.serviceToggle button[aria-pressed=true]{border:2px solid #277f6b;background:#edf9f3;color:#155b4c}
+.serviceToggle button:nth-child(2)[aria-pressed=true]{border-color:#5b5da3;background:#f2f1ff;color:#4d4f89}
+.fieldHelp{font-size:12px;line-height:1.7;color:#687e80;margin:12px 0}
+.prepareButton{border:0;cursor:pointer;justify-content:space-between;width:100%;margin-top:0;min-height:52px}
+.requestAside{padding:30px;background:#e8f4ed;border-radius:26px}.requestAside h2{font-size:25px;line-height:1.25;letter-spacing:-.035em}
+.requestAside p,.requestAside li{font-size:14px;line-height:1.8;color:#4d706a}.requestAside ul{padding-left:20px}
+.draftResult{margin-top:30px;border:1px solid #b7d6c8;border-radius:28px;background:#fff;padding:32px;scroll-margin-top:100px}
+.draftResult>p{font-size:14px;color:#637b74;line-height:1.7}
+.draftResult pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f2f7f4;border-radius:18px;padding:22px;font-family:inherit;line-height:1.8;font-size:14px}
+.draftActions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.draftActions .cta{border:0;cursor:pointer;margin:0}.draftActions .outlineCta{color:#145f50;border-color:#a6cabc}
+.divisionLink{min-height:48px;display:inline-flex;align-items:center;gap:24px}.trainingCard .divisionLink{color:#53569b}
+@media(max-width:850px){.divisionIntro{padding:32px;gap:20px}.landingEmblem{width:150px;height:150px}.categoryGrid{grid-template-columns:1fr}.categoryCard{padding:24px}.categoryCard h3{margin-top:18px}.requestLayout{grid-template-columns:1fr}.requestAside{order:2}.journeySteps{gap:20px}.serviceToggle button{font-size:12px}}
+@media(max-width:600px){
+ .divisionLanding,.requestLanding{padding:18px 16px 30px}
+ .divisionIntro{flex-direction:column-reverse;align-items:flex-start;border-radius:26px;padding:24px;margin-top:14px;gap:0}
+ .landingEmblem{width:110px;height:110px;margin-bottom:18px}
+ .divisionIntro h1,.requestHeading h1{font-size:36px;overflow-wrap:anywhere}
+ .divisionIntro p{font-size:15px;line-height:1.7}
+ .divisionIntro .cta{width:100%;justify-content:space-between;min-height:52px}
+ .catalogSection{padding:36px 0}.categoryCard{border-radius:22px}
+ .journeyPanel{padding:24px}.journeySteps{grid-template-columns:1fr;gap:24px}
+ .requestHeading{margin:22px 0 28px}.requestHeading p{font-size:14px}
+ .requestForm{padding:22px 18px;border-radius:24px}
+ .formColumns{grid-template-columns:1fr;gap:0}
+ .serviceToggle{gap:8px}.serviceToggle button{flex-direction:column;font-size:12px;min-height:100px}
+ .requestAside{padding:24px}.draftResult{padding:22px 18px;border-radius:24px}.draftResult pre{padding:16px;font-size:13px}
+ .draftActions{align-items:stretch;flex-direction:column}.draftActions .cta,.draftActions .outlineCta{justify-content:center;text-align:center;min-height:48px}
+}
