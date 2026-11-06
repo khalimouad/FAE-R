@@ -25,7 +25,7 @@ export default function PageShell({ locale, setLocale, active, children }: {
   return <>
     <a className="skipLink" href="#page-content">{locale === "fr" ? "Aller au contenu" : "Skip to content"}</a>
     <header className="nav">
-      <a className="brand" href={`/?lang=${locale}`} aria-label={locale === "fr" ? "FAE-R, accueil" : "FAE-R, home"}><span className="mark">F</span><span>FAE-R <em>INC.</em></span></a>
+      <a className="brand" href={`/?lang=${locale}`} aria-label={locale === "fr" ? "FAE-R, accueil" : "FAE-R, home"}><img className="brandLogo" src="/brand/faer-logo.webp" alt="" width={256} height={256}/><span className="brandWordmark"><strong>FAE-R INC.</strong><small>FIRST AID EXPRESS RESPONSE</small></span></a>
       <nav className="navLinks" aria-label={locale === "fr" ? "Navigation principale" : "Main navigation"}>
         {links.slice(1).map(([href, label, id]) => <a key={id} href={`${href}?lang=${locale}`} aria-current={active === id ? "page" : undefined}>{label}</a>)}
       </nav>
@@ -39,6 +39,6 @@ export default function PageShell({ locale, setLocale, active, children }: {
         </svg></span><span>{label}</span>
       </a>)}
     </nav>
-    <footer><span>© {new Date().getFullYear()} First Aid Express Response Inc.</span><a href={`/?lang=${locale}`}>{locale === "fr" ? "Retour à l'accueil" : "Back to home"} ↗</a></footer>
+    <footer><a className="footerIdentity" href={`/?lang=${locale}`}><img src="/brand/faer-logo.webp" alt="" width={256} height={256} loading="lazy"/><span><strong>FAE-R INC.</strong><small>© {new Date().getFullYear()} · Montréal, Québec</small></span></a><a href={`/?lang=${locale}`}>{locale === "fr" ? "Retour à l'accueil" : "Back to home"} ↗</a></footer>
   </>;
 }
