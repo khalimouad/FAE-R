@@ -10,7 +10,8 @@ export default function Pipeline(){
  const t=en?labels.en:labels.fr;
  const shown=rows.filter(r=>filter==="all"||r.stage===filter);
  const update=(id:string,patch:Partial<RecordType>)=>setRows(old=>old.map(r=>r.id===id?{...r,...patch}:r));
- const csv=()=>{const data=[["Organization","Type","Division","Stage","Next action","Notes"],...rows.map(r=>[r.name,r.kind,r.division,r.stage,r.next,r.notes])];const text="\ufeff"+data.map(row=>row.map(cell=>'"'+cell.replaceAll('"','""')+'"').join(";")).join("\r\n");const u=URL.createObjectURL(new Blob([text],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=u;a.download="faer-b2b-pipeline.csv";a.click();URL.revokeObjectURL(u)};
+ const safeCsv=(value:string)=> /^[\\s\\u0000-\\u001f]*[=+@-]/.test(value) ? "\u0027"+value : value;
+ const csv=()=>{const data=[["Organization","Type","Division","Stage","Next action","Notes"],...rows.map(r=>[r.name,r.kind,r.division,r.stage,r.next,r.notes])];const text="\ufeff"+data.map(row=>row.map(cell=>'"'+safeCsv(cell).replaceAll('"','""')+'"').join(";")).join("\r\n");const u=URL.createObjectURL(new Blob([text],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=u;a.download="faer-b2b-pipeline.csv";a.click();URL.revokeObjectURL(u)};
  const field={padding:11,border:"1px solid #aac9c4",borderRadius:9,font:"inherit",width:"100%",boxSizing:"border-box" as const};
  return <main style={{maxWidth:1100,margin:"auto",padding:"30px 20px 100px",fontFamily:"Arial,sans-serif",color:"#18383d"}}>
  <nav style={{display:"flex",justifyContent:"space-between"}}><Link href={`/partners/?lang=${en?"en":"fr"}`}>← {en?"Partners":"Partenaires"}</Link><button onClick={()=>setEn(!en)}>{en?"FR":"EN"}</button></nav>
