@@ -197,6 +197,7 @@ export default function Home() {
           <a href="#divisions">{t.nav[1]}</a>
           <a href="#spaces">{t.nav[2]}</a>
           <a href={`/partners/?lang=${locale}`}>{locale === "fr" ? "Partenaires" : "Partners"}</a>
+          <a href={`/operations/?lang=${locale}`}>{locale === "fr" ? "Opérations" : "Operations"}</a>
         </nav>
         <button className="language" type="button" onClick={() => setLocale(locale === "fr" ? "en" : "fr")} aria-label={locale === "fr" ? "Switch to English" : "Passer en français"}>
           {t.language}
