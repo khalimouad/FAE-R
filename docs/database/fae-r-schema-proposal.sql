@@ -34,12 +34,13 @@ create table if not exists public.fae_quotations (
 );
 create table if not exists public.fae_quotation_lines (
  id uuid primary key default gen_random_uuid(),
- quotation_id uuid not null references public.fae_quotations(id) on delete cascade,
+ quotation_id uuid not null,
  owner_id uuid not null references auth.users(id) on delete cascade,
  description text not null check (length(trim(description)) between 1 and 500),
  quantity numeric(12,2) not null check (quantity > 0),
  unit_price_cents bigint not null check (unit_price_cents >= 0),
- created_at timestamptz not null default now()
+ created_at timestamptz not null default now(),
+ foreign key (quotation_id, owner_id) references public.fae_quotations(id, owner_id) on delete cascade
 );
 create index if not exists fae_org_owner_idx on public.fae_organizations(owner_id);
 create index if not exists fae_opp_owner_idx on public.fae_opportunities(owner_id);
@@ -63,5 +64,5 @@ create policy "Owner access quotation lines" on public.fae_quotation_lines for a
  )) with check (owner_id = (select auth.uid()) and exists (
   select 1 from public.fae_quotations q where q.id = quotation_id and q.owner_id = (select auth.uid())
  ));
--- Further production review: add composite FK on quotation lines to enforce ownership,
--- audit logging, retention policy, organization-level RBAC, and transactional quote totals.
+-- Further production review: audit logging, retention policy, organization-level RBAC,
+-- quotation status transitions and transactional recalculation of quote totals.
