@@ -6,12 +6,13 @@ const currency=(n:number)=>new Intl.NumberFormat("fr-CA",{style:"currency",curre
 export default function QuoteBuilder(){
  const [en,setEn]=useState(false),[organization,setOrganization]=useState(""),[reference,setReference]=useState(""),[division,setDivision]=useState("medical"),[taxes,setTaxes]=useState(false),[lines,setLines]=useState<Line[]>([{description:"",quantity:1,unitPrice:""}]),[notes,setNotes]=useState("");
  useEffect(()=>{setEn(new URLSearchParams(window.location.search).get("lang")==="en")},[]);
- const subtotal=useMemo(()=>lines.reduce((sum,line)=>sum+(Number(line.unitPrice)||0)*Math.max(0,Number(line.quantity)||0),0),[lines]);
+ const subtotal=useMemo(()=>lines.reduce((sum,line)=>sum+Math.max(0,Number(line.unitPrice)||0)*Math.max(0,Number(line.quantity)||0),0),[lines]);
  const gst=taxes?Math.round(subtotal*.05*100)/100:0;
  const qst=taxes?Math.round(subtotal*.09975*100)/100:0;
  const total=subtotal+gst+qst;
  const update=(i:number,patch:Partial<Line>)=>setLines(old=>old.map((l,j)=>j===i?{...l,...patch}:l));
- const exportCsv=()=>{const rows=[["Description","Quantité","Prix unitaire (CAD)","Total (CAD)"],...lines.map(l=>[l.description,String(l.quantity),l.unitPrice,((Number(l.unitPrice)||0)*l.quantity).toFixed(2)]),["Sous-total","","",subtotal.toFixed(2)],["TPS (simulation)","","",gst.toFixed(2)],["TVQ (simulation)","","",qst.toFixed(2)],["TOTAL","","",total.toFixed(2)]];const csv="\ufeff"+rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(";")).join("\r\n");const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="faer-estimation.csv";a.click();URL.revokeObjectURL(url)};
+ const safeCsv=(value:string)=> /^[\\s\\u0000-\\u001f]*[=+@-]/.test(value) ? "\u0027"+value : value;
+ const exportCsv=()=>{const rows=[["Description","Quantité","Prix unitaire (CAD)","Total (CAD)"],...lines.map(l=>[l.description,String(l.quantity),l.unitPrice,((Number(l.unitPrice)||0)*l.quantity).toFixed(2)]),["Sous-total","","",subtotal.toFixed(2)],["TPS (simulation)","","",gst.toFixed(2)],["TVQ (simulation)","","",qst.toFixed(2)],["TOTAL","","",total.toFixed(2)]];const csv="\ufeff"+rows.map(r=>r.map(v=>'"'+safeCsv(String(v)).replaceAll('"','""')+'"').join(";")).join("\r\n");const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=url;a.download="faer-estimation.csv";a.click();URL.revokeObjectURL(url)};
  return <main style={{maxWidth:950,margin:"auto",padding:"32px 20px 90px",fontFamily:"Arial,sans-serif",color:"#15373c"}}>
  <div className="no-print" style={{display:"flex",justifyContent:"space-between"}}><Link href={`/?lang=${en?"en":"fr"}`}>← {en?"Home":"Accueil"}</Link><button onClick={()=>setEn(!en)}>{en?"FR":"EN"}</button></div>
  <p style={{marginTop:55,color:"#127b71",letterSpacing:2,fontWeight:700}}>FAE-R INC. · {en?"INTERNAL WORKSPACE":"ESPACE DE TRAVAIL"}</p>
