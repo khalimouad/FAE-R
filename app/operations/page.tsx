@@ -2,6 +2,7 @@ import Link from "next/link";
 export default async function Operations({searchParams}:{searchParams:Promise<{lang?:string}>}){
  const en=(await searchParams).lang==="en";
  const cards=[
+ {number:"00C",title:en?"Saved quotations":"Soumissions enregistrées",desc:en?"Create quotations linked to opportunities, manage lines and statuses in the database.":"Créer des soumissions liées aux opportunités, gérer les lignes et les statuts dans la base.",href:"/operations/saved-quotes/"},
  {number:"00B",title:en?"Secure opportunities":"Opportunités sécurisées",desc:en?"Manage sales opportunities with persistent stages, next actions and due dates.":"Gérer les opportunités commerciales avec étapes, actions et échéances sauvegardées.",href:"/operations/opportunities/"},
  {number:"00",title:en?"Secure organization CRM":"CRM sécurisé des organisations",desc:en?"Sign in to save your own suppliers, customers and partners in the FAE-R database.":"Connectez-vous pour enregistrer vos fournisseurs, clients et partenaires dans la base FAE-R.",href:"/operations/crm/"},
  {number:"01",title:en?"Partner network":"Réseau de partenaires",desc:en?"Explore upstream suppliers, downstream customers and collaboration programs.":"Explorer les fournisseurs amont, les clients aval et les programmes de collaboration.",href:"/partners/"},
