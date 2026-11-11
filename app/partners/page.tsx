@@ -1,0 +1,24 @@
+import Link from "next/link";
+type Search = {lang?:string};
+export default async function Partners({searchParams}:{searchParams:Promise<Search>}) {
+ const en=(await searchParams).lang==="en";
+ const groups=en?[
+  {tag:"UPSTREAM · SUPPLIERS",title:"Supply and service partners",intro:"Organizations offering first aid supplies, AED equipment, training expertise or safety services.",items:["Medical supply and replenishment providers","AED / DEA equipment distributors","Training and prevention service providers"]},
+  {tag:"DOWNSTREAM · CLIENTS",title:"Organizations we serve",intro:"Companies and institutions looking for a coordinated prevention solution.",items:["Small and medium-sized businesses","Institutions and workplace teams","Organizations with recurring replenishment or training needs"]},
+  {tag:"PARTNER PROGRAMS",title:"Employee and community programs",intro:"Opportunities connected to the Gold, Transparent and Brown operating spaces, subject to individual assessment.",items:["Employee-focused partner offers","Feedback and needs identification","Community support and responder networks"]}
+ ]:[
+  {tag:"AMONT · FOURNISSEURS",title:"Partenaires fournisseurs et prestataires",intro:"Organisations proposant du matériel de premiers soins, des DEA, des formations ou des services de prévention.",items:["Fournisseurs de matériel et de réapprovisionnement","Distributeurs d'équipements DEA","Prestataires de formation et de prévention"]},
+  {tag:"AVAL · CLIENTS",title:"Organisations accompagnées",intro:"Entreprises et institutions à la recherche d'une solution coordonnée de prévention.",items:["Petites et moyennes entreprises","Institutions et équipes de travail","Organisations ayant des besoins récurrents en matériel ou en formation"]},
+  {tag:"PROGRAMMES PARTENAIRES",title:"Programmes employés et communautaires",intro:"Pistes de collaboration liées aux espaces Gold, Transparent et Brown, sous réserve d'évaluation.",items:["Offres partenaires destinées aux employés","Rétroaction et identification des besoins","Entraide et réseaux de secouristes"]}
+ ];
+ return <main style={{fontFamily:"Arial,sans-serif",color:"#14353b",background:"#f8fbfa",minHeight:"100vh"}}>
+ <div style={{maxWidth:1080,margin:"auto",padding:"28px 24px 90px"}}>
+ <nav style={{display:"flex",justifyContent:"space-between",gap:12}}><Link href={`/?lang=${en?"en":"fr"}`}>← {en?"Home":"Accueil"}</Link><Link href={`/partners/?lang=${en?"fr":"en"}`}>{en?"FR":"EN"}</Link></nav>
+ <p style={{color:"#13796f",fontWeight:700,letterSpacing:2,marginTop:72}}>FAE-R INC. · AKFLUX</p>
+ <h1 style={{fontSize:"clamp(38px,6vw,66px)",lineHeight:1.06,maxWidth:850}}>{en?"Partner ecosystem":"Écosystème de partenaires"}</h1>
+ <p style={{fontSize:19,maxWidth:760,lineHeight:1.7}}>{en?"Our upstream and downstream relationships connect supplies, training and organizational needs through FAE-R Medical Supplies and Initials Flux.":"Nos relations amont et aval relient le matériel, la formation et les besoins des organisations à travers FAE-R Medical Supplies et Initials Flux."}</p>
+ <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:20,marginTop:44}}>{groups.map((g,i)=><section key={g.tag} style={{background:"white",border:"1px solid #d6e5e2",borderRadius:20,padding:26}}><span style={{fontSize:12,color:"#18776f",fontWeight:700}}>{g.tag}</span><h2 style={{fontSize:25,lineHeight:1.2}}>{g.title}</h2><p style={{lineHeight:1.6}}>{g.intro}</p><ul style={{paddingLeft:20,lineHeight:1.9}}>{g.items.map(item=><li key={item}>{item}</li>)}</ul><Link href={`/request/?lang=${en?"en":"fr"}`} style={{display:"inline-block",marginTop:15,color:"#086c65",fontWeight:700}}>{en?"Submit an inquiry":"Présenter une demande"} →</Link></section>)}</div>
+ <section style={{marginTop:55,padding:"32px",background:"#e8f3f0",borderRadius:20}}><h2>{en?"How a collaboration begins":"Comment débute une collaboration"}</h2><p style={{lineHeight:1.8}}>{en?"1. Describe your organization and needs. 2. FAE-R reviews the proposed fit. 3. The scope, pricing and terms are discussed before any agreement.":"1. Décrivez votre organisation et vos besoins. 2. FAE-R évalue l'adéquation de la demande. 3. Le périmètre, les tarifs et les modalités sont discutés avant tout accord."}</p><Link href={`/request/?lang=${en?"en":"fr"}`} style={{display:"inline-block",padding:"14px 22px",borderRadius:10,background:"#126c65",color:"white",textDecoration:"none"}}>{en?"Prepare a request":"Préparer une demande"} →</Link></section>
+ <p style={{fontSize:13,marginTop:25}}>{en?"Partner eligibility, certifications and contractual terms are assessed individually; this page is not an offer of accreditation or a binding agreement.":"L'admissibilité des partenaires, les certifications et les conditions contractuelles sont évaluées individuellement; cette page ne constitue ni une accréditation ni un engagement contractuel."}</p>
+ </div></main>
+}
