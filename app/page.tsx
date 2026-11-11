@@ -196,6 +196,7 @@ export default function Home() {
           <a href="#top">{t.nav[0]}</a>
           <a href="#divisions">{t.nav[1]}</a>
           <a href="#spaces">{t.nav[2]}</a>
+          <a href={`/partners/?lang=${locale}`}>{locale === "fr" ? "Partenaires" : "Partners"}</a>
         </nav>
         <button className="language" type="button" onClick={() => setLocale(locale === "fr" ? "en" : "fr")} aria-label={locale === "fr" ? "Switch to English" : "Passer en français"}>
           {t.language}
@@ -257,6 +258,10 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="content approach" aria-labelledby="partners-heading">
+        <span className="eyebrow">{locale === "fr" ? "ÉCOSYSTÈME FAE-R" : "FAE-R ECOSYSTEM"}</span>
+        <div className="approachGrid"><h2 id="partners-heading">{locale === "fr" ? "Un réseau de partenaires en amont et en aval." : "An upstream and downstream partner network."}</h2><div><p>{locale === "fr" ? "Fournisseurs, entreprises clientes et programmes partenaires : découvrez comment collaborer avec nos deux divisions." : "Suppliers, business clients and partner programs: discover ways to collaborate with our two divisions."}</p><a className="textLink" href={`/partners/?lang=${locale}`}>{locale === "fr" ? "Découvrir les partenariats" : "Explore partnerships"} ↗</a></div></div>
+      </section>
       <section className="content approach">
         <span className="eyebrow">{t.approachKicker}</span>
         <div className="approachGrid" data-reveal><h2>{t.approachTitle}</h2><p>{t.approachText}</p></div>
