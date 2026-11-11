@@ -190,7 +190,7 @@ export default function Home() {
       <div className="scrollProgress" aria-hidden="true" />
       <header className="nav">
         <a className="brand" href="#top" aria-label="FAE-R, home">
-          <img className="brandLogo" src="/brand/faer-logo.webp" alt="" width={256} height={256}/><span className="brandWordmark"><strong>FAE-R INC.</strong><small>FIRST AID EXPRESS RESPONSE</small></span>
+          <img className="brandLogo" src="/brand/faer-logo.svg" alt="" width={256} height={256}/><span className="brandWordmark"><strong>FAE-R INC.</strong><small>FIRST AID EXPRESS RESPONSE</small></span>
         </a>
         <nav className="navLinks" aria-label={locale === "fr" ? "Navigation principale" : "Main navigation"}>
           <a href="#top">{t.nav[0]}</a>
@@ -274,7 +274,7 @@ export default function Home() {
         </a>)}
       </nav>
       <footer>
-        <a className="footerIdentity" href="#top"><img src="/brand/faer-logo.webp" alt="" width={256} height={256} loading="lazy"/><span><strong>FAE-R INC.</strong><small>© {new Date().getFullYear()} · Montréal, Québec</small></span></a>
+        <a className="footerIdentity" href="#top"><img src="/brand/faer-logo.svg" alt="" width={256} height={256} loading="lazy"/><span><strong>FAE-R INC.</strong><small>© {new Date().getFullYear()} · Montréal, Québec</small></span></a>
         <span className="footerNote">{t.note}</span>
         <a href="#top">{t.backTop} ↑</a>
       </footer>
