@@ -1,4 +1,4 @@
--- FAE-R operational data model (proposal; NOT deployed)
+-- FAE-R initial schema, applied to dedicated project
 -- Apply only to a dedicated FAE-R Supabase project after review.
 create extension if not exists pgcrypto;
 
@@ -8,18 +8,20 @@ create table if not exists public.fae_organizations (
  name text not null check (length(trim(name)) between 1 and 180),
  category text not null check (category in ('supplier','customer','partner')),
  division text not null check (division in ('medical','training','both')),
- created_at timestamptz not null default now()
+ created_at timestamptz not null default now(),
+ unique (id, owner_id)
 );
 create table if not exists public.fae_opportunities (
  id uuid primary key default gen_random_uuid(),
  owner_id uuid not null references auth.users(id) on delete cascade,
- organization_id uuid not null references public.fae_organizations(id) on delete cascade,
+ organization_id uuid not null,
  title text not null check (length(trim(title)) between 1 and 200),
  stage text not null default 'new' check (stage in ('new','review','proposal','approved','closed','lost')),
  next_action text not null default '',
  due_date date,
  created_at timestamptz not null default now(),
- unique (id, owner_id)
+ unique (id, owner_id),
+ foreign key (organization_id, owner_id) references public.fae_organizations(id, owner_id) on delete cascade
 );
 create table if not exists public.fae_quotations (
  id uuid primary key default gen_random_uuid(),
@@ -30,6 +32,7 @@ create table if not exists public.fae_quotations (
  subtotal_cents bigint not null default 0 check (subtotal_cents >= 0),
  taxes_cents bigint not null default 0 check (taxes_cents >= 0),
  created_at timestamptz not null default now(),
+ unique (id, owner_id),
  foreign key (opportunity_id,owner_id) references public.fae_opportunities(id,owner_id)
 );
 create table if not exists public.fae_quotation_lines (
