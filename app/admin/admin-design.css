@@ -38,3 +38,22 @@
  .faer-admin .faer-action-toolbar{position:sticky;top:57px;background:white;z-index:5;padding:10px;border-radius:12px;box-shadow:0 4px 18px #123d3b12}
  .faer-admin .faer-action-toolbar button{flex:1 1 auto}
 }
+
+/* Compact, contextual headers: one title per screen */
+.faer-page-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;min-width:0}
+.faer-page-heading-copy{min-width:0}
+.faer-page-eyebrow{font-size:10px;letter-spacing:1.5px;font-weight:750;color:#64817e}
+.faer-refresh-button{white-space:nowrap;flex-shrink:0}
+.faer-module-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.faer-module-summary{display:flex;align-items:center;gap:9px;font-size:13px;color:#607a7c}
+.faer-module-count{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 9px;border-radius:10px;background:#e6f2ee;color:#176e64;font-weight:800}
+.faer-primary-action{min-height:44px!important}
+@media(max-width:800px){
+ .faer-page-heading{margin-bottom:18px}
+ .faer-page-heading .faer-heading{font-size:26px!important}
+ .faer-refresh-button{width:42px;min-width:42px;min-height:42px;padding:0!important;display:flex;align-items:center;justify-content:center;font-size:23px!important}
+ .faer-refresh-button span{display:none}
+ .faer-module-toolbar{align-items:stretch;margin-bottom:14px}
+ .faer-module-summary{min-height:38px}
+ .faer-primary-action{width:100%;display:flex;align-items:center;justify-content:center;font-size:14px!important}
+}
