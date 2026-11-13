@@ -28,3 +28,13 @@
 }
 @media(min-width:801px) and (max-width:1100px){.faer-admin .faer-main{padding:26px!important}.faer-admin .faer-sidebar{width:225px!important}}
 @media(prefers-reduced-motion:reduce){.faer-admin *, .faer-admin *::before,.faer-admin *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.faer-payment-mobile-cards{display:none}
+.faer-admin .faer-action-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 0;margin:8px 0 16px;border-top:1px solid var(--faer-border);border-bottom:1px solid var(--faer-border)}
+.faer-admin .faer-action-toolbar button{border-radius:10px;min-height:40px}
+@media(max-width:700px){
+ .faer-payment-mobile-cards{display:block}
+ .faer-payment-desktop-table{display:none}
+ .faer-admin .faer-action-toolbar{position:sticky;top:57px;background:white;z-index:5;padding:10px;border-radius:12px;box-shadow:0 4px 18px #123d3b12}
+ .faer-admin .faer-action-toolbar button{flex:1 1 auto}
+}
