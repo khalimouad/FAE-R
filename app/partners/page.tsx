@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PublicHeader from "../PublicHeader";
 type Search = {lang?:string};
 export default async function Partners({searchParams}:{searchParams:Promise<Search>}) {
  const en=(await searchParams).lang==="en";
@@ -11,7 +12,7 @@ export default async function Partners({searchParams}:{searchParams:Promise<Sear
   {tag:"AVAL · CLIENTS",title:"Organisations accompagnées",intro:"Entreprises et institutions à la recherche d'une solution coordonnée de prévention.",items:["Petites et moyennes entreprises","Institutions et équipes de travail","Organisations ayant des besoins récurrents en matériel ou en formation"]},
   {tag:"PROGRAMMES PARTENAIRES",title:"Programmes employés et communautaires",intro:"Pistes de collaboration liées aux espaces Gold, Transparent et Brown, sous réserve d'évaluation.",items:["Offres partenaires destinées aux employés","Rétroaction et identification des besoins","Entraide et réseaux de secouristes"]}
  ];
- return <main style={{fontFamily:"Arial,sans-serif",color:"#14353b",background:"#f8fbfa",minHeight:"100vh"}}>
+ return <><PublicHeader en={en} current="/partners/" theme="gold"/><main style={{fontFamily:"Arial,sans-serif",color:"#14353b",background:"#f8fbfa",minHeight:"100vh"}}>
  <div style={{maxWidth:1080,margin:"auto",padding:"28px 24px 90px"}}>
  <nav style={{display:"flex",justifyContent:"space-between",gap:12}}><Link href={`/?lang=${en?"en":"fr"}`}>← {en?"Home":"Accueil"}</Link><Link href={`/partners/?lang=${en?"fr":"en"}`}>{en?"FR":"EN"}</Link></nav>
  <p style={{color:"#13796f",fontWeight:700,letterSpacing:2,marginTop:72}}>FAE-R INC. · AKFLUX</p>
@@ -22,5 +23,5 @@ export default async function Partners({searchParams}:{searchParams:Promise<Sear
  <p style={{marginTop:28}}><Link href={`/operations/quotes/?lang=${en?"en":"fr"}`} style={{fontWeight:700,color:"#086c65"}}>{en?"Open quotation worksheet (draft only)":"Ouvrir la feuille de soumission (brouillon uniquement)"} →</Link></p>
  <p><Link href={`/operations/pipeline/?lang=${en?"en":"fr"}`} style={{fontWeight:700,color:"#086c65"}}>{en?"Open B2B tracking worksheet":"Ouvrir le registre de suivi B2B"} →</Link></p>
  <p style={{fontSize:13,marginTop:25}}>{en?"Partner eligibility, certifications and contractual terms are assessed individually; this page is not an offer of accreditation or a binding agreement.":"L'admissibilité des partenaires, les certifications et les conditions contractuelles sont évaluées individuellement; cette page ne constitue ni une accréditation ni un engagement contractuel."}</p>
- </div></main>
+ </div></main></>
 }
