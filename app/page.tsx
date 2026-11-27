@@ -135,6 +135,7 @@ function NavIcon({ name }: { name: NavIconName }) {
 
 export default function Home() {
   const [locale, setLocale] = useState<Locale>("fr");
+  const [menuOpen,setMenuOpen]=useState(false);
   const t = copy[locale];
   useEffect(() => { if (new URLSearchParams(window.location.search).get("lang") === "en") setLocale("en"); }, []);
   const [activeSection, setActiveSection] = useState("home");
@@ -194,12 +195,19 @@ export default function Home() {
         </a>
         <nav className="navLinks" aria-label={locale === "fr" ? "Navigation principale" : "Main navigation"}>
           <a href="#top">{t.nav[0]}</a>
-          <a href="#divisions">{t.nav[1]}</a>
-          <a href="#spaces">{t.nav[2]}</a>
-          <a href={`/partners/?lang=${locale}`}>{locale === "fr" ? "Partenaires" : "Partners"}</a>
-          <a href={`/operations/?lang=${locale}`}>{locale === "fr" ? "Opérations" : "Operations"}</a>
-          <a href="/training">{locale === "fr" ? "Formations" : "Training"}</a>
+          <details className="navDropdown"><summary>{locale==="fr"?"Nos divisions":"Divisions"} <span aria-hidden="true">⌄</span></summary><div className="navSubmenu"><a href={`/medical-supplies/?lang=${locale}`}>{locale==="fr"?"Matériel médical":"Medical supplies"}</a><a href={`/initials-flux/?lang=${locale}`}>Initials Flux</a><a href="#divisions">{locale==="fr"?"Vue d'ensemble":"Overview"}</a></div></details>
+          <details className="navDropdown"><summary>{locale==="fr"?"Formations":"Training"} <span aria-hidden="true">⌄</span></summary><div className="navSubmenu"><a href="/training">{locale==="fr"?"Catalogue des programmes":"Program catalog"}</a><a href="/training#programs">{locale==="fr"?"Cours et exercices":"Courses & exercises"}</a><a href={`/initials-flux/?lang=${locale}`}>{locale==="fr"?"Formations SST":"Safety training"}</a></div></details>
+          <details className="navDropdown"><summary>{locale==="fr"?"Services":"Services"} <span aria-hidden="true">⌄</span></summary><div className="navSubmenu"><a href="#spaces">{locale==="fr"?"Nos huit espaces":"Our eight spaces"}</a><a href={`/partners/?lang=${locale}`}>{locale==="fr"?"Partenariats":"Partnerships"}</a><a href={`/operations/?lang=${locale}`}>{locale==="fr"?"Opérations":"Operations"}</a></div></details>
+          <a href={`/request/?lang=${locale}`} className="navContact">{locale==="fr"?"Demander une proposition":"Request a proposal"}</a>
         </nav>
+        <button type="button" className="publicMenuToggle" aria-expanded={menuOpen} aria-controls="public-mobile-menu" onClick={()=>setMenuOpen(!menuOpen)} aria-label={locale==="fr"?"Ouvrir le menu":"Open menu"}>{menuOpen?"✕":"☰"}</button>
+        {menuOpen&&<nav id="public-mobile-menu" className="publicMobileMenu" aria-label={locale==="fr"?"Menu mobile":"Mobile menu"}>
+          <a onClick={()=>setMenuOpen(false)} href="#top">{locale==="fr"?"Accueil":"Home"}</a>
+          <details open><summary>{locale==="fr"?"Nos divisions":"Divisions"}</summary><a onClick={()=>setMenuOpen(false)} href={`/medical-supplies/?lang=${locale}`}>{locale==="fr"?"Matériel médical":"Medical supplies"}</a><a onClick={()=>setMenuOpen(false)} href={`/initials-flux/?lang=${locale}`}>Initials Flux</a></details>
+          <details open><summary>{locale==="fr"?"Formations":"Training"}</summary><a onClick={()=>setMenuOpen(false)} href="/training">{locale==="fr"?"Catalogue des programmes":"Program catalog"}</a><a onClick={()=>setMenuOpen(false)} href="/training#programs">{locale==="fr"?"Cours et exercices":"Courses & exercises"}</a></details>
+          <details><summary>{locale==="fr"?"Services & partenaires":"Services & partners"}</summary><a onClick={()=>setMenuOpen(false)} href="#spaces">{locale==="fr"?"Nos espaces":"Our spaces"}</a><a onClick={()=>setMenuOpen(false)} href={`/partners/?lang=${locale}`}>{locale==="fr"?"Partenaires":"Partners"}</a><a onClick={()=>setMenuOpen(false)} href={`/operations/?lang=${locale}`}>{locale==="fr"?"Opérations":"Operations"}</a></details>
+          <a className="mobileMenuCTA" onClick={()=>setMenuOpen(false)} href={`/request/?lang=${locale}`}>{locale==="fr"?"Demander une proposition":"Request a proposal"}</a>
+        </nav>}
         <button className="language" type="button" onClick={() => setLocale(locale === "fr" ? "en" : "fr")} aria-label={locale === "fr" ? "Switch to English" : "Passer en français"}>
           {t.language}
         </button>
@@ -249,6 +257,12 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="homeTrainingHighlight" aria-labelledby="home-training-title">
+        <div className="homeTrainingInner">
+          <div className="homeTrainingLead"><span className="eyebrow">{locale==="fr"?"NOUVEAUX PROGRAMMES":"NEW PROGRAMS"}</span><h2 id="home-training-title">{locale==="fr"?"Développez les compétences humaines et professionnelles.":"Build human and professional skills."}</h2><p>{locale==="fr"?"Découvrez quatre parcours pédagogiques FAE-R de 70 heures, avec manuels de cours, quiz et exercices pratiques.":"Explore four 70-hour FAE-R learning programs with course manuals, quizzes and practical exercises."}</p><a className="homeTrainingCTA" href="/training">{locale==="fr"?"Explorer les quatre programmes":"Explore all four programs"} <span aria-hidden="true">↗</span></a></div>
+          <div className="homeTrainingList"><a href="/training#human-behavior"><span>01</span><strong>The Science of Human Behavior</strong><small>70 h ↗</small></a><a href="/training#business-development"><span>02</span><strong>Business Development Strategies & Marketing</strong><small>70 h ↗</small></a><a href="/training#mentoring-coaching"><span>03</span><strong>Mentoring, Coaching & Self-Development</strong><small>70 h ↗</small></a><a href="/training#body-language"><span>04</span><strong>Body Language & Human Contact</strong><small>70 h ↗</small></a></div>
+        </div>
+      </section>
       <section className="spacesSection" id="spaces">
         <div className="content">
           <div className="sectionHead" data-reveal><div><span className="eyebrow">{t.spacesKicker}</span><h2>{t.spacesTitle}</h2><p className="sectionIntro">{t.spacesIntro}</p></div></div>
